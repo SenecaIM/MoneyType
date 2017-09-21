@@ -12,9 +12,9 @@ namespace FinancialTypes
         public Money(decimal value, CurrencyInfo currencyInfo) : base(value, currencyInfo) { }
 
         public Money(Price price, Quantity quantity)
-            :this((price.Value * quantity.Value), price.CurrencyInfo)
+            : this((price.Value * quantity.Value), price.CurrencyInfo)
         {
-            
+
         }
 
         #region prop
@@ -30,7 +30,66 @@ namespace FinancialTypes
         }
         #endregion
 
+        #region Operator Overloads
 
+        public static Money operator +(Money m1, Money m2)
+        {
+            issamecurrencyinfowithexception(m1, m2);
+            return new Money((m1.Value + m2.Value), m1.CurrencyInfo);
+        }
+
+        public static Money operator -(Money m1, Money m2)
+        {
+            issamecurrencyinfowithexception(m1, m2);
+            return new Money((m1.Value - m2.Value), m1.CurrencyInfo);
+        }
+
+        public static bool operator ==(Money m1, Money m2)
+        {
+            issamecurrencyinfowithexception(m1, m2);
+            return m1.Value == m2.Value;
+        }
+
+        public static bool operator !=(Money m1, Money m2)
+        {
+            issamecurrencyinfowithexception(m1, m2);
+            return !(m1 == m2);
+        }
+
+        public static bool operator >(Money m1, Money m2)
+        {
+            issamecurrencyinfowithexception(m1, m2);
+            return m1.Value > m2.Value;
+        }
+
+        public static bool operator <(Money m1, Money m2)
+        {
+            issamecurrencyinfowithexception(m1, m2);
+            return m1.Value < m2.Value;
+        }
+
+        public static bool operator >=(Money m1, Money m2)
+        {
+            issamecurrencyinfowithexception(m1, m2);
+            return (m1.Value == m2.Value) || (m1.Value > m2.Value);
+        }
+
+        public static bool operator <=(Money m1, Money m2)
+        {
+            issamecurrencyinfowithexception(m1, m2);
+            return (m1.Value == m2.Value) || (m1.Value < m2.Value);
+        }
+
+        private static bool issamecurrencyinfowithexception(Money money1, Money money2)
+        {
+            if (money1.CurrencyInfo != money2.CurrencyInfo)
+            {
+                throw new CurrencyInfoException();
+            }
+            return true;
+        }
+
+        #endregion
 
         //#region tostring
         //public string ToNumber()
