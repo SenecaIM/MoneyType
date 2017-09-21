@@ -1,7 +1,7 @@
-﻿namespace FinancialTypes
-{
-    public interface ICurrencyInfoBased
-    {
-        CurrencyInfo CurrencyInfo { get; }
-    }
-}
+﻿//namespace FinancialTypes
+//{
+//    public interface ICurrencyInfoBased
+//    {
+//        CurrencyInfo CurrencyInfo { get; }
+//    }
+//}

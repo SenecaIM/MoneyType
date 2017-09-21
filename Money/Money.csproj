@@ -7,8 +7,8 @@
     <ProjectGuid>{1F25DFEC-CBA6-4955-8143-04DDC5F6BEBF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Money</RootNamespace>
-    <AssemblyName>Money</AssemblyName>
+    <RootNamespace>FinancialTypes</RootNamespace>
+    <AssemblyName>PM</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,7 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurrenctFormatOptions.cs" />
+    <Compile Include="CurrencyInfoException.cs" />
+    <Compile Include="FX.cs" />
+    <Compile Include="FXCollection.cs" />
+    <Compile Include="InstrumentCollection.cs" />
+    <Compile Include="MoneyPriceBase.cs" />
+    <Compile Include="NotifyPropertyChanged.cs" />
+    <Compile Include="CurrenctFormatOptionsEnum.cs" />
     <Compile Include="CurrencyInfo.cs" />
     <Compile Include="CurrencyInfoCollection.cs" />
     <Compile Include="Form1.cs">
@@ -59,7 +65,9 @@
     <Compile Include="ICurrencyInfoBased.cs" />
     <Compile Include="Instrument.cs" />
     <Compile Include="Money.cs" />
+    <Compile Include="OperatorOverloads.cs" />
     <Compile Include="Price.cs" />
+    <Compile Include="PriceMoneyBaseException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quantity.cs" />
@@ -76,6 +84,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

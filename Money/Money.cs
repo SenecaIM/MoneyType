@@ -6,73 +6,89 @@ using System.Threading.Tasks;
 
 namespace FinancialTypes
 {
-    public class Money :ICurrencyInfoBased
+    public class Money : MoneyPriceBase
     {
-        public Money(int value, string iso)
-        {
-            Value = value;
-            CurrencyInfo = CurrencyInfoCollection.GetCurrencyInfo(iso);
-        }
+        public Money(decimal value, string iso) : base(value, iso) { }
+        public Money(decimal value, CurrencyInfo currencyInfo) : base(value, currencyInfo) { }
+
         public Money(Price price, Quantity quantity)
+            :this((price.Value * quantity.Value), price.CurrencyInfo)
         {
-            Value= Convert.ToInt32( price.Value*  quantity.Value);
-            CurrencyInfo = price.CurrencyInfo;
+            
         }
 
-        public int Value { get; set; }
-
-        public CurrencyInfo CurrencyInfo { get; private set; }
-
-        public  string ToNumber()
+        #region prop
+        private decimal _value = 0;
+        public override decimal Value
         {
-            return ToString( CurrenctFormatOptions.None);
-        }
-        public string ToCurrency()
-        {
-            return ToString(CurrenctFormatOptions.Major);
-        }
-        public string ToDetailedCurrency()
-        {
-            return ToString(CurrenctFormatOptions.Major | CurrenctFormatOptions.ISO);
-        }
-        private string ToString(CurrenctFormatOptions showSymbols)
-        {
-            decimal value = Value;
-
-            if (CurrencyInfo.DecimalPlaces != 0)
+            get { return _value; }
+            set
             {
-                decimal div = (decimal)Math.Pow(10, CurrencyInfo.DecimalPlaces);
-                value = value / div;
+                _value = Math.Round(_value, MidpointRounding.AwayFromZero);
+                SetField(ref _value, value);
             }
-
-            StringBuilder formattedvalue = new StringBuilder();
-
-            if (showSymbols.HasFlag(CurrenctFormatOptions.Major)) { formattedvalue.Append(CurrencyInfo.MajorSymbol); }
-            formattedvalue.Append(value.ToString(CurrencyInfo.FormatStringMoney));
-            if (showSymbols.HasFlag( CurrenctFormatOptions.Minor)) { formattedvalue.Append(CurrencyInfo.MinorSymbol); }
-            if (showSymbols.HasFlag( CurrenctFormatOptions.ISO)) { formattedvalue.Append($" [{CurrencyInfo.ISO}]"); }
-
-            return formattedvalue.ToString();
         }
-        
-        public static Money operator -(Money m1, Money m2)
-        {
-            issamecurrencyinfowithexception(m1, m2);
-            return new Money(m1.Value - m2.Value, m1.CurrencyInfo.ISO);
-        }
-        public static Money operator +(Money m1, Money m2)
-        {
-            issamecurrencyinfowithexception(m1, m2);
-            return new Money(m1.Value + m2.Value, m1.CurrencyInfo.ISO);
-        }
+        #endregion
 
-        private static bool issamecurrencyinfowithexception(Money m1, Money m2)
-        {
-            if (m1.CurrencyInfo != m2.CurrencyInfo)
-            {
-                throw new ExceptionCurrencyInfoMisMatch();
-            }
-            return true;
-        }
+
+
+        //#region tostring
+        //public string ToNumber()
+        //{
+        //    return ToString(CurrenctFormatOptions.None);
+        //}
+        //public string ToCurrency()
+        //{
+        //    return ToString(CurrenctFormatOptions.Major);
+        //}
+        //public string ToDetailedCurrency()
+        //{
+        //    return ToString(CurrenctFormatOptions.Major | CurrenctFormatOptions.ISO);
+        //}
+        //private string ToString(CurrenctFormatOptions showSymbols)
+        //{
+        //    decimal value = Value;
+
+        //    if (CurrencyInfo.DecimalPlaces != 0)
+        //    {
+        //        decimal div = (decimal)Math.Pow(10, CurrencyInfo.DecimalPlaces);
+        //        value = value / div;
+        //    }
+
+        //    StringBuilder formattedvalue = new StringBuilder();
+
+        //    if (showSymbols.HasFlag(CurrenctFormatOptions.Major)) { formattedvalue.Append(CurrencyInfo.MajorSymbol); }
+        //    formattedvalue.Append(value.ToString(CurrencyInfo.FormatStringMoney));
+        //    if (showSymbols.HasFlag(CurrenctFormatOptions.Minor)) { formattedvalue.Append(CurrencyInfo.MinorSymbol); }
+        //    if (showSymbols.HasFlag(CurrenctFormatOptions.ISO)) { formattedvalue.Append($" [{CurrencyInfo.ISO}]"); }
+
+        //    return formattedvalue.ToString();
+        //}
+        //#endregion
+
+        //#region operators
+        //public static Money operator -(Money m1, Money m2)
+        //{
+        //    issamecurrencyinfowithexception(m1, m2);
+        //    return new Money(m1.Value - m2.Value, m1.CurrencyInfo.ISO);
+        //}
+        //public static Money operator +(Money m1, Money m2)
+        //{
+        //    issamecurrencyinfowithexception(m1, m2);
+        //    return new Money(m1.Value + m2.Value, m1.CurrencyInfo.ISO);
+        //}
+
+        //private static bool issamecurrencyinfowithexception(Money m1, Money m2)
+        //{
+        //    if (m1.CurrencyInfo != m2.CurrencyInfo)
+        //    {
+        //        throw new CurrencyInfoException();
+        //    }
+        //    return true;
+        //}
+        //#endregion
+
+
+
     }
 }

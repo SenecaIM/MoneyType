@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace FinancialTypes
 {
     public class CurrencyInfo :IComparable<CurrencyInfo>
     {
-        internal CurrencyInfo(string name, string iso, int decimalPlaces, string majorSymbol, string minorSymbol)
+        public CurrencyInfo(string name, string iso, int decimalPlaces, string majorSymbol, string minorSymbol)
         {
             MajorSymbol = majorSymbol;
             MinorSymbol = minorSymbol;
@@ -20,11 +19,15 @@ namespace FinancialTypes
             }
             FormatStringPrice = FormatStringMoney + "0";
         }
+        //internal CurrencyInfo() : this("Unknown", "UNK", 2, "?", "?")
+        //{ }
+
         public string MajorSymbol { get; private set; }
         public string MinorSymbol { get; private set; }
         public string Name { get; private set; }
         public int DecimalPlaces { get; private set; }
-        public string ISO { get; private set; }
+        private string _iso;
+        public string ISO { get { return _iso; } private set { _iso = value.ToUpper(); } }
         public string FormatStringMoney { get; private set; }
         public string FormatStringPrice { get; private set; }
 
@@ -32,21 +35,5 @@ namespace FinancialTypes
         {
             return Name.CompareTo(obj.Name);
         }
-    }
-
-    [Serializable]
-    public class ExceptionCurrencyInfoMisMatch : Exception
-    {
-        public ExceptionCurrencyInfoMisMatch()
-        { }
-
-        public ExceptionCurrencyInfoMisMatch(string message) : base(message)
-        { }
-
-        public ExceptionCurrencyInfoMisMatch(string message, Exception innerException) : base(message, innerException)
-        { }
-
-        protected ExceptionCurrencyInfoMisMatch(SerializationInfo info, StreamingContext context) : base(info, context)
-        { }
     }
 }

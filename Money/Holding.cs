@@ -18,7 +18,7 @@ namespace FinancialTypes
         public List<Transaction> Transactions { get; private set; }
         public Quantity Quantity { get { return new Quantity(Transactions.Sum(p => p.Quantity.Value)); } }
 
-        public Money ReportingValue { get { return new Money(Instrument.ReportingPrice, Quantity); } }
+        //public Money ReportingValue { get { return new Money(Instrument.ReportingPrice, Quantity); } }
         public Money LocalValue { get { return new Money(Instrument.LocalPrice, Quantity); } }
     }
 }
